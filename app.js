@@ -19,8 +19,10 @@ app.use(
     express.static(path.join(__dirname, 'node_modules/jquery/dist/'))
 );
 
+app.set('views', './src/views');
+app.set('view engine', 'ejs');
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    res.render('index', { title: 'My Libraty', list: ['a', 'b', 'c'] });
 });
 
 app.listen(3000, () => {
