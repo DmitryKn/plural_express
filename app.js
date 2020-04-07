@@ -2,7 +2,12 @@ const express = require('express');
 const path = require('path');
 const dotenv = require('dotenv');
 const port = process.env.PORT || 3000;
-const bookRouter = require('./routes/bookRoutes');
+
+const nav = [
+    { link: '/books', title: 'Books' },
+    { link: '/authors', title: 'Autors' },
+];
+const bookRouter = require('./routes/bookRoutes')(nav);
 
 //APP config
 const app = express();
