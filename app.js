@@ -8,6 +8,7 @@ const nav = [
     { link: '/authors', title: 'Autors' },
 ];
 const bookRouter = require('./routes/bookRoutes')(nav);
+const adminRouter = require('./routes/adminRoutes')(nav);
 
 //APP config
 const app = express();
@@ -33,6 +34,7 @@ app.set('view engine', 'ejs');
 
 //Endpoints
 app.use('/books', bookRouter);
+app.use('/admin', adminRouter);
 app.get('/', (req, res) => {
     res.render('index', {
         title: 'My Libraty',
