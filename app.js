@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const dotenv = require('dotenv');
 const port = process.env.PORT || 3000;
+const bodyParser = require('body-parser');
 
 const nav = [
     { link: '/books', title: 'Books' },
@@ -9,11 +10,14 @@ const nav = [
 ];
 const bookRouter = require('./routes/bookRoutes')(nav);
 const adminRouter = require('./routes/adminRoutes')(nav);
+const authRouter = require('./routes/authRoutes')(nav);
 
 //APP config
 const app = express();
 
 dotenv.config();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join('public')));
 app.use(
     '/css',
@@ -35,6 +39,7 @@ app.set('view engine', 'ejs');
 //Endpoints
 app.use('/books', bookRouter);
 app.use('/admin', adminRouter);
+app.use('/auth', authRouter);
 app.get('/', (req, res) => {
     res.render('index', {
         title: 'My Libraty',
