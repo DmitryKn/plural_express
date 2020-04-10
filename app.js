@@ -3,6 +3,9 @@ const path = require('path');
 const dotenv = require('dotenv');
 const port = process.env.PORT || 3000;
 const bodyParser = require('body-parser');
+const passport = require('passport');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
 
 const nav = [
     { link: '/books', title: 'Books' },
@@ -18,6 +21,9 @@ const app = express();
 dotenv.config();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(session({ secret: 'mySecret' }));
+require('./config/passport')(app);
 app.use(express.static(path.join('public')));
 app.use(
     '/css',
@@ -43,6 +49,7 @@ app.use('/auth', authRouter);
 app.get('/', (req, res) => {
     res.render('index', {
         title: 'My Libraty',
+        user: req.user,
         nav: [
             { link: '/books', title: 'Books' },
             { link: '/authors', title: 'Autors' },
